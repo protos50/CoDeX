@@ -144,9 +144,23 @@ Symptom Nodes (observed evidence):
 - Python 3.10+, Node.js 20+, npm
 
 ### 1️⃣ Backend Setup
+
+**Create and activate virtual environment:**
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate on Windows
+venv\Scripts\activate
+
+# Activate on Linux/Mac
+source venv/bin/activate
+```
+
+**Install dependencies and run:**
 ```bash
 pip install -r requirements.txt
-py -m uvicorn backend.main:app --reload
+python -m uvicorn backend.main:app --reload
 ```
 ✅ Backend running at `http://localhost:8000` (API docs: `/docs`)
 
