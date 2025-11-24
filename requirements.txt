@@ -4,3 +4,4 @@ pydantic
 durable_rules
 pgmpy
 numpy
+requests

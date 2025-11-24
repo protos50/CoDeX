@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "version": "2025.1",
+    "region": "Argentina - Zona Endémica",
+    "fuente_protocolos": "Ministerio de Salud 2025 / OPS / Paper COVIDENGUE"
+  },
+  "reglas_diagnostico_diferencial": [
+    {
+      "id": "R_RETROOCULAR",
+      "sintoma": "dolor_retroocular",
+      "descripcion": "Dolor detrás de los ojos",
+      "descripcion_en": "Pain behind the eyes",
+      "peso_covid": -1,
+      "peso_dengue": 5,
+      "justificacion": "Clásico de arbovirosis, aumenta probabilidad de Dengue."
+    },
+    {
+      "id": "R_TOS",
+      "sintoma": "tos",
+      "descripcion": "Tos seca o productiva",
+      "descripcion_en": "Dry or productive cough",
+      "peso_covid": 2,
+      "peso_dengue": -2,
+      "justificacion": "Síntoma respiratorio alto, sugiere COVID. Dengue raramente cursa con tos."
+    },
+    {
+      "id": "R_GARGANTA",
+      "sintoma": "dolor_garganta",
+      "descripcion": "Odinofagia",
+      "descripcion_en": "Sore throat",
+      "peso_covid": 2,
+      "peso_dengue": -1,
+      "justificacion": "Síntoma respiratorio alto."
+    },
+    {
+      "id": "R_MIALGIA_INTENSA",
+      "sintoma": "mialgia",
+      "descripcion": "Dolor muscular rompehuesos",
+      "descripcion_en": "Bone-breaking muscle pain",
+      "peso_covid": 1,
+      "peso_dengue": 4,
+      "justificacion": "Aunque presente en ambos, la intensidad en Dengue es discriminante."
+    },
+    {
+      "id": "R_NEXO_EPIDEMIO",
+      "sintoma": "nexo_dengue",
+      "descripcion": "Contacto o viaje a zona de brote activo",
+      "descripcion_en": "Contact or travel to active outbreak area",
+      "peso_covid": 0,
+      "peso_dengue": 10,
+      "justificacion": "En brotes activos (2025), el nexo epidemiológico es el predictor más fuerte."
+    },
+    {
+      "id": "R_ANOSMIA",
+      "sintoma": "anosmia",
+      "descripcion": "Pérdida de olfato",
+      "descripcion_en": "Loss of smell",
+      "peso_covid": 7,
+      "peso_dengue": -2,
+      "justificacion": "Altamente específico para COVID-19."
+    }
+  ],
+  "reglas_contexto_epidemiologico": [
+    {
+      "id": "R_ZONA_ENDEMICA",
+      "condicion": "zona_endemica",
+      "descripcion": "Corrientes en Verano (zona endémica + temporada alta)",
+      "descripcion_en": "Corrientes in Summer (endemic zone + high season)",
+      "peso_covid": 0,
+      "peso_dengue": 5,
+      "justificacion": "Corrientes es zona endémica; en verano aumenta circulación del vector Aedes aegypti."
+    },
+    {
+      "id": "R_CORRIENTES_OTRAS_ESTACIONES",
+      "condicion": "corrientes_no_verano",
+      "descripcion": "Corrientes fuera de temporada alta",
+      "descripcion_en": "Corrientes outside high season",
+      "peso_covid": 0,
+      "peso_dengue": 2,
+      "justificacion": "Sigue siendo zona endémica pero con menor actividad vectorial."
+    }
+  ],
+  "reglas_signos_alarma": [
+    {
+      "id": "AL_DENGUE_01",
+      "condicion": "dolor_abdominal_intenso",
+      "accion": "DERIVACION_URGENTE",
+      "accion_en": "URGENT_REFERRAL",
+      "mensaje": "ALERTA ROJA: Dolor abdominal intenso y continuo. Signo de extravasación de plasma.",
+      "mensaje_en": "RED ALERT: Severe and continuous abdominal pain. Sign of plasma leakage."
+    },
+    {
+      "id": "AL_DENGUE_02",
+      "condicion": "sangrado_mucosas",
+      "accion": "DERIVACION_URGENTE",
+      "accion_en": "URGENT_REFERRAL",
+      "mensaje": "ALERTA ROJA: Signo de hemorragia activa. Evaluar plaquetas y hematocrito urgente.",
+      "mensaje_en": "RED ALERT: Active bleeding sign. Urgently evaluate platelets and hematocrit."
+    },
+    {
+      "id": "AL_COVID_01",
+      "condicion": "disnea",
+      "accion": "DERIVACION_RESPIRATORIA",
+      "accion_en": "RESPIRATORY_REFERRAL",
+      "mensaje": "ALERTA: Dificultad respiratoria. Evaluar saturación de oxígeno por posible neumonía COVID.",
+      "mensaje_en": "ALERT: Respiratory distress. Evaluate oxygen saturation for possible COVID pneumonia."
+    }
+  ],
+  "logica_difusa_fiebre": {
+    "baja": { "min": 37.0, "max": 37.9, "peso_extra_dengue": 0 },
+    "alta": { "min": 38.0, "max": 39.5, "peso_extra_dengue": 2 },
+    "hiperpirexia": { "min": 39.6, "max": 42.0, "peso_extra_dengue": 3 }
+  }
+}

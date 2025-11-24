@@ -18,14 +18,22 @@ app.add_middleware(
 
 class PatientData(BaseModel):
     fiebre: bool
+    temperatura: Optional[float] = None
     tos: bool
     dolor_garganta: bool
+    dolor_retroocular: Optional[bool] = False
+    mialgia: Optional[bool] = False
+    anosmia: Optional[bool] = False
     asma: bool
     hipertension: bool
     viaje_brasil: bool
     contacto_dengue: bool
-    lugar: str  # "Corrientes"
-    estacion: str # "Verano"
+    lugar: str  # "Corrientes" o "Otro"
+    estacion: str  # "Verano" o "Invierno"
+    dolor_abdominal_intenso: Optional[bool] = False
+    sangrado_mucosas: Optional[bool] = False
+    disnea: Optional[bool] = False
+    language: Optional[str] = "es"  # Language for results
 
 @app.get("/")
 def read_root():
@@ -33,15 +41,19 @@ def read_root():
 
 @app.post("/diagnose")
 def diagnose(patient: PatientData):
+    # Convert to dict for agents
+    patient_dict = patient.dict()
+    lang = patient_dict.get('language', 'es')
+    
     # 1. Deterministic Analysis
     try:
-        det_result = run_deterministic_agent(patient.dict())
+        det_result = run_deterministic_agent(patient_dict, lang)
     except Exception as e:
         det_result = {"error": str(e)}
 
     # 2. Probabilistic Analysis
     try:
-        prob_result = run_probabilistic_agent(patient.dict())
+        prob_result = run_probabilistic_agent(patient_dict, lang)
     except Exception as e:
         prob_result = {"error": str(e)}
     
@@ -56,9 +68,13 @@ from backend.agents.conversational import (
 )
 
 @app.post("/chat/start")
-def start_chat():
+def start_chat(request: dict = None):
     """Initialize a new chat session"""
-    session_id = create_session()
+    lang = "es"  # default
+    if request and "language" in request:
+        lang = request["language"] if request["language"] in ["es", "en"] else "es"
+    
+    session_id = create_session(lang)
     first_question = get_next_question(session_id)
     
     return {
