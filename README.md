@@ -39,11 +39,11 @@ A hybrid expert system implementing two complementary classical AI approaches: r
 
 **Knowledge Base** (`backend/data/reglas_infectologia.json`):
 - **6 differential diagnosis rules** with calibrated weights:
-  - `dolor_retroocular` (retro-orbital pain): +5 Dengue, -1 COVID → Classic arbovirus symptom
-  - `tos` (cough): +2 COVID, -2 Dengue → Upper respiratory symptom
-  - `anosmia` (loss of smell): +7 COVID, -2 Dengue → Highly specific for COVID-19
-  - `mialgia` (intense muscle pain): +4 Dengue, +1 COVID → "Breakbone fever"
-  - `nexo_dengue` (epidemiological link): +10 Dengue → Strongest predictor in active outbreaks
+  - `retro_orbital_pain`: +5 Dengue, -1 COVID → Classic arbovirus symptom
+  - `cough`: +2 COVID, -2 Dengue → Upper respiratory symptom
+  - `anosmia`: +7 COVID, -2 Dengue → Highly specific for COVID-19
+  - `myalgia`: +4 Dengue, +1 COVID → "Breakbone fever"
+  - `dengue_contact`: +10 Dengue → Strongest predictor in active outbreaks
 
 - **2 contextual rules**:
   - Corrientes + Summer: +5 Dengue (endemic zone + high Aedes aegypti season)
@@ -284,13 +284,6 @@ Dual Expert System for COVID-19 vs Dengue Differential Diagnosis
 National University of the Northeast, Faculty of Exact Sciences
 2025 - Developed with Generative AI Assistance
 ```
-
----
-
-## 📞 Support
-
-- **GitHub Repository**: [github.com/yourusername/expert-system-infectology](https://github.com/yourusername/expert-system-infectology)
-- **API Documentation**: `http://localhost:8000/docs` (run backend)
 
 ---
 
