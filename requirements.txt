@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pydantic
+durable_rules
+pgmpy
+numpy

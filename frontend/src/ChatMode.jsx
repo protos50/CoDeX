@@ -59,7 +59,8 @@ function ChatMode() {
       if (data.completed) {
         setMessages(prev => [...prev, {
           role: 'assistant',
-          content: data.message
+          content: data.message,
+          diagnosis: data.diagnosis
         }])
         setIsCompleted(true)
         setCurrentQuestion(null)
@@ -121,19 +122,117 @@ function ChatMode() {
         ) : (
           <>
             {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
+              <div key={idx}>
                 <div
-                  className={`max-w-[70%] rounded-lg p-3 ${
-                    msg.role === 'user'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
-                  }`}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className="whitespace-pre-wrap">{msg.content}</div>
+                  <div
+                    className={`max-w-[70%] rounded-lg p-3 ${
+                      msg.role === 'user'
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    <div className="whitespace-pre-wrap">{msg.content}</div>
+                  </div>
                 </div>
+                
+                {/* Show diagnosis details if available */}
+                {msg.diagnosis && (
+                  <div className="mt-4 space-y-4">
+                    {/* Deterministic Analysis */}
+                    <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                      <h3 className="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                        ⚙️ Análisis Determinístico
+                        <span className="text-xs font-normal text-gray-500">(Basado en Reglas)</span>
+                      </h3>
+                      {msg.diagnosis.deterministic && (
+                        <div className="space-y-2 text-sm">
+                          <div className="p-2 bg-white rounded">
+                            <div className="font-semibold text-gray-700">Clasificación:</div>
+                            <div className="text-gray-800">{msg.diagnosis.deterministic.clasificacion}</div>
+                          </div>
+                          <div className="p-2 bg-white rounded">
+                            <div className="font-semibold text-gray-700">Justificación:</div>
+                            <div className="text-gray-800">{msg.diagnosis.deterministic.justificacion}</div>
+                          </div>
+                          <div className="p-2 bg-white rounded">
+                            <div className="font-semibold text-gray-700">Acción:</div>
+                            <div className="text-gray-800">{msg.diagnosis.deterministic.accion}</div>
+                          </div>
+                          {msg.diagnosis.deterministic.razonamiento && (
+                            <details className="p-2 bg-blue-50 rounded cursor-pointer">
+                              <summary className="font-semibold text-gray-700 cursor-pointer hover:text-blue-600">
+                                🧠 Traza del Motor de Inferencia
+                              </summary>
+                              <pre className="text-xs mt-2 whitespace-pre-wrap font-mono bg-gray-900 text-green-400 p-2 rounded border border-blue-200 overflow-x-auto">
+                                {msg.diagnosis.deterministic.razonamiento}
+                              </pre>
+                            </details>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Probabilistic Analysis */}
+                    <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                      <h3 className="font-semibold text-blue-700 mb-3 flex items-center gap-2">
+                        📊 Análisis Probabilístico
+                        <span className="text-xs font-normal text-gray-500">(Red Bayesiana)</span>
+                      </h3>
+                      {msg.diagnosis.probabilistic && !msg.diagnosis.probabilistic.error && (
+                        <div className="space-y-2 text-sm">
+                          <div className="grid grid-cols-3 gap-2">
+                            <div className="p-2 bg-orange-50 rounded border border-orange-200">
+                              <div className="font-semibold text-gray-700 text-xs">🦟 Dengue</div>
+                              <div className="text-lg font-bold text-orange-600 mt-1">
+                                {msg.diagnosis.probabilistic.dengue_probability}%
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div
+                                  className="bg-orange-500 h-1.5 rounded-full transition-all"
+                                  style={{ width: `${msg.diagnosis.probabilistic.dengue_probability}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="p-2 bg-blue-50 rounded border border-blue-200">
+                              <div className="font-semibold text-gray-700 text-xs">🦠 COVID-19</div>
+                              <div className="text-lg font-bold text-blue-600 mt-1">
+                                {msg.diagnosis.probabilistic.covid_probability}%
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div
+                                  className="bg-blue-600 h-1.5 rounded-full transition-all"
+                                  style={{ width: `${msg.diagnosis.probabilistic.covid_probability}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="p-2 bg-purple-50 rounded border border-purple-200">
+                              <div className="font-semibold text-gray-700 text-xs">🔀 Ambas</div>
+                              <div className="text-lg font-bold text-purple-600 mt-1">
+                                {msg.diagnosis.probabilistic.both_probability}%
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div
+                                  className="bg-purple-600 h-1.5 rounded-full transition-all"
+                                  style={{ width: `${msg.diagnosis.probabilistic.both_probability}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-2 bg-white rounded text-gray-700">
+                            {msg.diagnosis.probabilistic.analysis}
+                          </div>
+                        </div>
+                      )}
+                      {msg.diagnosis.probabilistic?.error && (
+                        <div className="p-2 bg-red-50 text-red-700 rounded text-sm">
+                          Error: {msg.diagnosis.probabilistic.error}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
             <div ref={messagesEndRef} />

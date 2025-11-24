@@ -128,11 +128,11 @@ function App() {
               </button>
             </div>
 
-            <form on Submit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="border-b pb-4">
                 <h3 className="font-semibold text-gray-700 mb-2">Síntomas</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="fiebre"
@@ -142,7 +142,7 @@ function App() {
                     />
                     <span>Fiebre</span>
                   </label>
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="tos"
@@ -152,7 +152,7 @@ function App() {
                     />
                     <span>Tos</span>
                   </label>
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="dolor_garganta"
@@ -168,7 +168,7 @@ function App() {
               <div className="border-b pb-4">
                 <h3 className="font-semibold text-gray-700 mb-2">Antecedentes</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="asma"
@@ -178,7 +178,7 @@ function App() {
                     />
                     <span>Asma</span>
                   </label>
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="hipertension"
@@ -194,7 +194,7 @@ function App() {
               <div className="border-b pb-4">
                 <h3 className="font-semibold text-gray-700 mb-2">Historial Epidemiológico</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="viaje_brasil"
@@ -204,7 +204,7 @@ function App() {
                     />
                     <span>Viaje a Brasil (últimas 2 semanas)</span>
                   </label>
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-gray-700">
                     <input
                       type="checkbox"
                       name="contacto_dengue"
@@ -221,24 +221,24 @@ function App() {
                 <h3 className="font-semibold text-gray-700 mb-2">Contexto</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm mb-1">Lugar</label>
+                    <label className="block text-sm mb-1 text-gray-700">Lugar</label>
                     <select
                       name="lugar"
                       value={formData.lugar}
                       onChange={handleSelectChange}
-                      className="w-full border rounded px-3 py-2"
+                      className="w-full border rounded px-3 py-2 text-gray-700 bg-white"
                     >
                       <option value="Corrientes">Corrientes</option>
                       <option value="Otro">Otro</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm mb-1">Estación</label>
+                    <label className="block text-sm mb-1 text-gray-700">Estación</label>
                     <select
                       name="estacion"
                       value={formData.estacion}
                       onChange={handleSelectChange}
-                      className="w-full border rounded px-3 py-2"
+                      className="w-full border rounded px-3 py-2 text-gray-700 bg-white"
                     >
                       <option value="Verano">Verano</option>
                       <option value="Invierno">Invierno</option>
@@ -265,6 +265,22 @@ function App() {
 
           {/* RESULTADOS */}
           <div className="space-y-6">
+            {/* INFO BANNER */}
+            {results && (
+              <div className="bg-gradient-to-r from-purple-100 to-blue-100 border-l-4 border-purple-500 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="text-2xl">💡</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800 mb-1">Los modelos usan lógicas diferentes</h3>
+                    <p className="text-sm text-gray-700">
+                      <strong>Determinístico:</strong> Aplica reglas estrictas (SI/NO) para clasificar.
+                      <strong className="ml-3">Probabilístico:</strong> Calcula probabilidades (0-100%) considerando todas las evidencias simultáneamente.
+                      Ambos métodos son válidos y complementarios.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
             {/* DETERMINÍSTICO */}
             <div className="bg-white rounded-lg shadow-xl p-6">
               <h2 className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2">
@@ -276,16 +292,26 @@ function App() {
                 <div className="space-y-3">
                   <div className="p-3 bg-purple-50 rounded">
                     <div className="font-semibold text-gray-700">Clasificación:</div>
-                    <div className="text-lg mt-1">{results.deterministic.clasificacion}</div>
+                    <div className="text-lg mt-1 text-gray-800">{results.deterministic.clasificacion}</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded">
                     <div className="font-semibold text-gray-700">Justificación:</div>
-                    <div className="text-sm mt-1">{results.deterministic.justificacion}</div>
+                    <div className="text-sm mt-1 text-gray-800">{results.deterministic.justificacion}</div>
                   </div>
                   <div className="p-3 bg-green-50 rounded">
                     <div className="font-semibold text-gray-700">Acción Recomendada:</div>
-                    <div className="text-sm mt-1">{results.deterministic.accion}</div>
+                    <div className="text-sm mt-1 text-gray-800">{results.deterministic.accion}</div>
                   </div>
+                  {results.deterministic.razonamiento && (
+                    <details className="p-3 bg-blue-50 rounded cursor-pointer">
+                      <summary className="font-semibold text-gray-700 cursor-pointer hover:text-blue-600">
+                        🧠 Traza del Motor de Inferencia (Forward Chaining)
+                      </summary>
+                      <pre className="text-xs mt-2 whitespace-pre-wrap font-mono bg-gray-900 text-green-400 p-3 rounded border border-blue-200 overflow-x-auto">
+                        {results.deterministic.razonamiento}
+                      </pre>
+                    </details>
+                  )}
                 </div>
               ) : (
                 <div className="text-gray-400 text-center py-8">
@@ -309,19 +335,45 @@ function App() {
                     </div>
                   ) : (
                     <>
-                      <div className="p-3 bg-blue-50 rounded">
-                        <div className="font-semibold text-gray-700">Probabilidad de Dengue:</div>
-                        <div className="text-3xl font-bold text-blue-600 mt-2">
-                          {results.probabilistic.dengue_probability}%
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="p-3 bg-orange-50 rounded border border-orange-200">
+                          <div className="font-semibold text-gray-700 text-sm">🦟 Dengue</div>
+                          <div className="text-2xl font-bold text-orange-600 mt-1">
+                            {results.probabilistic.dengue_probability}%
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div
+                              className="bg-orange-500 h-2 rounded-full transition-all"
+                              style={{ width: `${results.probabilistic.dengue_probability}%` }}
+                            ></div>
+                          </div>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                          <div
-                            className="bg-blue-600 h-2 rounded-full transition-all"
-                            style={{ width: `${results.probabilistic.dengue_probability}%` }}
-                          ></div>
+                        <div className="p-3 bg-blue-50 rounded border border-blue-200">
+                          <div className="font-semibold text-gray-700 text-sm">🦠 COVID-19</div>
+                          <div className="text-2xl font-bold text-blue-600 mt-1">
+                            {results.probabilistic.covid_probability}%
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div
+                              className="bg-blue-600 h-2 rounded-full transition-all"
+                              style={{ width: `${results.probabilistic.covid_probability}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-purple-50 rounded border border-purple-200">
+                          <div className="font-semibold text-gray-700 text-sm">🔀 Ambas</div>
+                          <div className="text-2xl font-bold text-purple-600 mt-1">
+                            {results.probabilistic.both_probability}%
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div
+                              className="bg-purple-600 h-2 rounded-full transition-all"
+                              style={{ width: `${results.probabilistic.both_probability}%` }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
-                      <div className="p-3 bg-gray-50 rounded text-sm">
+                      <div className="p-3 bg-gray-50 rounded text-sm text-gray-700">
                         {results.probabilistic.analysis}
                       </div>
                     </>
