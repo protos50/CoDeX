@@ -1,4 +1,4 @@
-# 🩺 Dual Expert System for COVID-19 vs Dengue Differential Diagnosis
+# 🩺 CoDeX(Covid–Dengue eXpert) - Dual Expert System for COVID-19 vs Dengue Differential Diagnosis
 
 A hybrid expert system implementing two complementary classical AI approaches: rule-based reasoning (deterministic) and Bayesian probabilistic inference for differential diagnosis between COVID-19 and Dengue, tailored to the Argentine epidemiological context in dengue-endemic regions (2025).
 
